@@ -11,10 +11,10 @@ jobs:
   goodby-world:
     runs-on: ubuntu-latest
     steps:
-      - name: Failed Step
+      - name: Fixed Step
         run: |
           echo "This Step is based on a Multine Command"
-          echo "This Step will fail"
-          exit 1
+          echo "This Step have been fixed and now it will not fail"
+          exit 0
       - name: Say Goodbye World
         run: echo "Goodbye, World!"
