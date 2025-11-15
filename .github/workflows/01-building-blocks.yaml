@@ -2,7 +2,7 @@ name: 01 - Building Blocks
 on:
   - workflow_dispatch
 jobs:
-  echo-world:
+  hello-world:
     runs-on: ubuntu-latest
     steps:
       - name: Say Hello World
