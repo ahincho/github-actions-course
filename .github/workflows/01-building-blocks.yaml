@@ -1,0 +1,20 @@
+name: 01 - Building Blocks
+on:
+  - push
+  - workflow_dispatch
+jobs:
+  echo-world:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello World
+        run: echo "Hello, World!"
+  goodby-world:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Failed Step
+        run: |
+          echo "This Step is based on a Multine Command"
+          echo "This Step will fail"
+          exit 1
+      - name: Say Goodbye World
+        run: echo "Goodbye, World!"
