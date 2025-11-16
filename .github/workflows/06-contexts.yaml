@@ -8,9 +8,15 @@ on:
         type: boolean
         default: false
 run-name: 06 - Contexts | DEBUG - ${{ inputs.debug}}
+env:
+  MY_WORKFLOW_VAR: 'workflow'
+  MY_OVERWRITTEN_VAR: 'workflow'
 jobs:
   echo-data:
     runs-on: ubuntu-latest
+    env:
+      MY_JOB_VAR: 'job'
+      MY_OVERWRITTEN_VAR: 'job'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
@@ -34,3 +40,16 @@ jobs:
           echo "Workflow Name: ${{ github.workflow }}"
           echo "Workflow Run ID: ${{ github.run_id }}"
           echo "Workflow Run Number: ${{ github.run_number }}"
+      - name: Print Env Variables
+        env:
+          MY_OVERWRITTEN_VAR: 'step'
+        run: |
+          echo "MY_WORKFLOW_VAR: $MY_WORKFLOW_VAR"
+          echo "MY_JOB_VAR: $MY_JOB_VAR"
+          echo "MY_OVERWRITTEN_VAR: $MY_OVERWRITTEN_VAR"
+          echo "Workflow Env: ${{ env.MY_WORKFLOW_VAR }}"
+          echot "Overwritten Env: ${{ env.MY_OVERWRITTEN_VAR }}"
+      - name: Echo Workflow Variables
+        run: |
+          echo "Workflow Env: ${{ env.MY_WORKFLOW_VAR }}"
+          echo "Overwritten Env: ${{ env.MY_OVERWRITTEN_VAR }}"
