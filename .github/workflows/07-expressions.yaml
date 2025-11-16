@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Start Debug Mode
-        if: ${{ inputs.debug == true }}
+        if: ${{ inputs.debug }}
         run: |
           echo "[Debug] Debug mode is enabled"
           echo "[Debug] Triggered by: ${{ github.event_name}}"
@@ -21,7 +21,7 @@ jobs:
           echo "[Debug] Commit SHA: ${{ github.sha }}"
           echo "[Debug] Runner OS: ${{ runner.os }}"
       - name: Print When Triggered from Main Branch
-        if: ${{ inputs.debug == true && github.ref == 'refs/heads/main' }}
+        if: ${{ inputs.debug && github.ref == 'refs/heads/main' }}
         run: |
           echo "This run was triggered from the main branch in debug mode."
       - name: Greeting
