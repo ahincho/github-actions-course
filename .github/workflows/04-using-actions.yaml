@@ -1,6 +1,6 @@
 name: 04 - Using Actions
 on:
-  - push
+  # - push
   - workflow_dispatch
 jobs:
   react-build:
