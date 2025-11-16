@@ -1,6 +1,5 @@
 name: 08 - Variables
 on:
-  push:
   workflow_dispatch:
 env:
   WORKFLOW_LEVEL_VAR: 'workflow_level'
