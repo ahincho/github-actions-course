@@ -1,0 +1,24 @@
+name: 08 - Variables
+on:
+  push:
+  workflow_dispatch:
+env:
+  WORKFLOW_LEVEL_VAR: 'workflow_level'
+  OVERWRITTEN_VAR: 'I was defined on workflow level'
+jobs:
+  echo-data:
+    runs-on: ubuntu-latest
+    env:
+      JOB_LEVEL_VAR: 'job_level'
+      OVERWRITTEN_VAR: 'I was overwritten on job level'
+    steps:
+      - name: Print Env Variables
+        env:
+          STEP_LEVEL_VAR: 'step_level'
+          STEP_LEVEL_MESSAGE: 'I was defined on step level'
+        run: |
+          echo "WORKFLOW_LEVEL_VAR: $WORKFLOW_LEVEL_VAR"
+          echo "JOB_LEVEL_VAR: $JOB_LEVEL_VAR"
+          echo "STEP_LEVEL_VAR: $STEP_LEVEL_VAR"
+          echo "STEP_LEVEL_MESSAGE: $STEP_LEVEL_MESSAGE"
+          echo "OVERWRITTEN_VAR: $OVERWRITTEN_VAR"
