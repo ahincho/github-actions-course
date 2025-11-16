@@ -2,6 +2,7 @@ name: 06 - Contexts
 on:
   - push
   - workflow_dispatch
+run-name: My Custom Run Name - ${{ runner.os }}
 jobs:
   echo-data:
     runs-on: ubuntu-latest
