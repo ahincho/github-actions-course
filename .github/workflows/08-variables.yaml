@@ -22,3 +22,8 @@ jobs:
           echo "STEP_LEVEL_VAR: $STEP_LEVEL_VAR"
           echo "STEP_LEVEL_MESSAGE: $STEP_LEVEL_MESSAGE"
           echo "OVERWRITTEN_VAR: $OVERWRITTEN_VAR"
+      - name: Overwrite and Print OVERWRITTEN_VAR
+        env:
+          OVERWRITTEN_VAR: 'I was overwritten on step level'
+        run: |
+          echo "OVERWRITTEN_VAR: $OVERWRITTEN_VAR"
