@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       pass-unit-tests:
-        description: 'Set to true to pass unit tests, false to fail them'
+        description: 'Pass unit tests'
         type: boolean
         required: true
         default: false
