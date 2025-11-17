@@ -1,0 +1,38 @@
+name: 11 - Working with Inputs
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Perform a dry run without actual deployment'
+        type: boolean
+        required: true
+        default: false
+      target:
+        description: 'Deployment target environment'
+        type: environment
+        required: true
+        default: 'staging'
+      tag:
+        description: 'Tag to deploy'
+        type: choice
+        required: true
+        options:
+          - 'v1'
+          - 'v2'
+          - 'v3'
+        default: 'v1'
+jobs:
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Building the project
+        run: echo "Building the project from tag ${{ inputs.tag }}"
+  deploy:
+    name: Deploy Project
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ !inputs.dry-run }}
+    steps:
+      - name: Deploying to ${{ inputs.target }} environment
+        run: echo "Deploying to ${{ inputs.target }} environment from tag ${{ inputs.tag }}"
