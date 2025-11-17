@@ -8,18 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Show PR Title
-        run: 'echo "PR Title: ${{ github.event.pull_request.title }}"'
+        run: |
+          echo "PR Title: ${{ github.event.pull_request.title }}"
       - name: Show PR Labels
         run: |
           echo "PR Labels:"
           echo "${{ toJson(github.event.pull_request.labels) }}"
       - name: Bug Step
-        run: |
-          if failure() && !cancelled() && contains(github.event.pull_request.title, 'fix'); then
-            echo "This PR has resolved a bug and the previous step failed."
-          else
-            echo "No bug detected or previous step did not fail."
-          fi
+        if: ${{ failure() && !cancelled() && contains(github.event.pull_request.title, 'fix') }}
+        run: echo "This PR has resolved a bug and the previous step failed."
       - name: Sleep
         run: sleep 30
       - name: Failing Step
@@ -33,7 +30,7 @@ jobs:
         if: failure()
         run: echo "The previous step failed!"
       - name: Not Cancelled
-        if: '!cancelled()'
+        if: ${{ !cancelled() }}
         run: echo "The workflow was not cancelled!"
       - name: On Cancelled
         if: cancelled()
