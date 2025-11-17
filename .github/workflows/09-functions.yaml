@@ -11,9 +11,11 @@ jobs:
         run: |
           echo "PR Title: ${{ github.event.pull_request.title }}"
       - name: Show PR Labels
+        env:
+          PR_LABELS: ${{ toJson(github.event.pull_request.labels) }}
         run: |
           echo "PR Labels:"
-          echo "${{ toJson(github.event.pull_request.labels) }}"
+          echo "$PR_LABELS"
       - name: Bug Step
         if: ${{ failure() && !cancelled() && contains(github.event.pull_request.title, 'fix') }}
         run: echo "This PR has resolved a bug and the previous step failed."
