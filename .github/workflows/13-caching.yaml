@@ -38,6 +38,7 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ inputs.node-version }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install Dependencies
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' || !inputs.use-cache }}
         run: npm ci
       - name: Run Tests
         run: npm run test
