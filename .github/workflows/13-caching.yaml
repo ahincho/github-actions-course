@@ -2,6 +2,15 @@ name: 13 - Caching
 on:
   workflow_dispatch:
     inputs:
+      node-version:
+        description: 'NodeJs version to use'
+        type: choice
+        required: true
+        options:
+          - '20.x'
+          - '22.x'
+          - '24.x'
+        default: '24.x'
       use-cache:
         description: 'Use cache for dependencies'
         type: boolean
@@ -11,21 +20,29 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./13-caching
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
       - name: Set Up NodeJs
         uses: actions/setup-node@v6
         with:
-          node-version: '24.x'
+          node-version: ${{ inputs.node-version }}
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        if: ${{ inputs.use-cache }}
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ inputs.node-version }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install Dependencies
-        working-directory: ./13-caching
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci
       - name: Run Tests
-        working-directory: ./13-caching
         run: npm run test
       - name: Build Project
-        working-directory: ./13-caching
         run: npm run build
       - name: Deploy to Staging
         run: echo "Deploying to staging environment"
