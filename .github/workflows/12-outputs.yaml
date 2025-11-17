@@ -10,6 +10,11 @@ on:
           - 'success'
           - 'fail'
         default: 'success'
+      mistake:
+        description: 'Simulate a mistake in output setting'
+        type: boolean
+        required: false
+        default: false
 jobs:
   build:
     name: Build
@@ -28,6 +33,9 @@ jobs:
           echo "first-output=first-value" >> $GITHUB_OUTPUT
           echo "second-output=second-value" >> $GITHUB_OUTPUT
           echo "Outputs" && cat $GITHUB_OUTPUT
+      - name: Simulate a Mistake
+        if: ${{ inputs.mistake }}
+        run: |    
           echo "mistake=true" > $GITHUB_OUTPUT
           echo "Outputs" && cat $GITHUB_OUTPUT
   deploy:
