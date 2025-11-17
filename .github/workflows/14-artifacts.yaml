@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: 14-artifacts-react-app
-          path: ./build
+          path: 14-artifacts/dist
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -57,7 +57,6 @@ jobs:
         uses: actions/download-artifact@v6
         with:
           name: 14-artifacts-react-app
-          path: ./build
       - name: Deploy Application
         run: |
           echo "Deploying on Staging Environment"
