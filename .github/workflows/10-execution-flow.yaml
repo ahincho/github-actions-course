@@ -2,8 +2,8 @@ name: 10 - Controlling the Execution Flow
 on:
   workflow_dispatch:
     inputs:
-      pass-unit-tests:
-        description: 'Pass unit tests'
+      fail-unit-tests:
+        description: 'Fail unit tests'
         type: boolean
         required: true
         default: false
@@ -27,7 +27,7 @@ jobs:
       - name: Running Unit Tests
         run: echo "Running unit tests"
       - name: Fail Unit Tests
-        if: ${{ inputs.pass-unit-tests }}
+        if: ${{ inputs.fail-unit-tests }}
         continue-on-error: ${{ inputs.continue-on-test-errors }}
         run: exit 1
   deploy-staging:
