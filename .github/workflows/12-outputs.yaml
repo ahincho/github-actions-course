@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       build-status: ${{ steps.build.outputs.build-status }}
+      first-output: ${{ steps.build.outputs.first-output }}
+      second-output: ${{ steps.build.outputs.second-output }}
     steps:
       - name: Print GITHUB_OUTPUT Path
         run: echo "GITHUB_OUTPUT is located at $GITHUB_OUTPUT"
@@ -35,6 +37,10 @@ jobs:
     if: ${{ success() && needs.build.outputs.build-status == 'success' }}
     steps:
       - name: Print Outputs
-        run: echo "Outputs" && cat $GITHUB_OUTPUT
+        run: |
+          echo "Outputs" && cat $GITHUB_OUTPUT
+          echo "Build Status: ${{ needs.build.outputs.build-status }}"
+          echo "First Output: ${{ needs.build.outputs.first-output }}"
+          echo "Second Output: ${{ needs.build.outputs.second-output }}"
       - name: Check Build Status
         run: echo "Build status is ${{ needs.build.outputs.build-status }}. Proceeding with deployment."
