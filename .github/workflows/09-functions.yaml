@@ -12,7 +12,7 @@ jobs:
           echo "PR Title: ${{ github.event.pull_request.title }}"
       - name: Show PR Labels
         run: | 
-          cat << EOF
+          cat << 'EOF'
           ${{ toJSON(github.event.pull_request.labels) }}
           EOF
       - name: Bug Step
