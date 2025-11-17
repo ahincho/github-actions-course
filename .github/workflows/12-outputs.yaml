@@ -22,12 +22,12 @@ jobs:
       - name: Simulate Build Process
         id: build
         run: |
-          echo "build-status=${{ inputs['build-status'] }} >> $GITHUB_OUTPUT"
+          echo "build-status=${{ inputs.build-status }} >> $GITHUB_OUTPUT"
           echo "first-output=first-value" >> $GITHUB_OUTPUT
           echo "second-output=second-value" >> $GITHUB_OUTPUT
-          echo "Outputs: $GITHUB_OUTPUT"
+          echo "Outputs" && cat $GITHUB_OUTPUT
           echo "mistake=true" > $GITHUB_OUTPUT
-          echo "Outputs: $GITHUB_OUTPUT"
+          cat "Outputs: $GITHUB_OUTPUT"
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
