@@ -60,4 +60,4 @@ jobs:
       - name: Deploy Application
         run: |
           echo "Deploying on Staging Environment"
-          ls -R ./14-artifacts-react-app
+          ls -R .
