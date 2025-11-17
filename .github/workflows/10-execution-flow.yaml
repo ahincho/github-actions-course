@@ -7,6 +7,11 @@ on:
         type: boolean
         required: true
         default: false
+      continue-on-test-errors:
+        description: 'Continue on test errors'
+        type: boolean
+        required: true
+        default: false
 jobs:
   lint-build:
     name: Lint Build
@@ -22,7 +27,8 @@ jobs:
       - name: Running Unit Tests
         run: echo "Running unit tests"
       - name: Fail Unit Tests
-        if: ${{ inputs.pass-unit-tests == false }}
+        if: ${{ inputs.pass-unit-tests }}
+        continue-on-error: ${{ inputs.continue-on-test-errors }}
         run: exit 1
   deploy-staging:
     name: Deploy to Staging
