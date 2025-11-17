@@ -25,9 +25,9 @@ jobs:
           echo "build-status=${{ inputs['build-status'] }} >> $GITHUB_OUTPUT"
           echo "first-output=first-value" >> $GITHUB_OUTPUT
           echo "second-output=second-value" >> $GITHUB_OUTPUT
-          cat "Outputs: $GITHUB_OUTPUT"
+          echo "Outputs: $GITHUB_OUTPUT"
           echo "mistake=true" > $GITHUB_OUTPUT
-          cat "Outputs: $GITHUB_OUTPUT"
+          echo "Outputs: $GITHUB_OUTPUT"
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -35,6 +35,6 @@ jobs:
     if: ${{ success() && needs.build.outputs.build-status == 'success' }}
     steps:
       - name: Print Outputs
-        run: 'cat "Outputs: $GITHUB_OUTPUT"'
+        run: 'echo "Outputs: $GITHUB_OUTPUT"'
       - name: Check Build Status
         run: echo "Build status is ${{ needs.build.outputs.build-status }}. Proceeding with deployment."
