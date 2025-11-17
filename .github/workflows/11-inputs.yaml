@@ -9,8 +9,12 @@ on:
         default: false
       target:
         description: 'Deployment target environment'
-        type: environment
+        type: choice
         required: true
+        options:
+          - 'staging'
+          - "certification"
+          - 'production'
         default: 'staging'
       tag:
         description: 'Tag to deploy'
