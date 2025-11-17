@@ -18,7 +18,7 @@ jobs:
         if: failure()
         run: echo "The previous step failed!"
       - name: Not Cancelled
-        if: !cancelled()
+        if: '!cancelled()'
         run: echo "The workflow was not cancelled!"
       - name: On Cancelled
         if: cancelled()
