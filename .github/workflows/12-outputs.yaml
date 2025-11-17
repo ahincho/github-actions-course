@@ -22,16 +22,19 @@ jobs:
       - name: Simulate Build Process
         id: build
         run: |
-          if [ "${{ inputs['build-status'] }}" == "success" ]; then
-            echo "build-status=success" >> $GITHUB_OUTPUT
-          else
-            echo "build-status=failure" >> $GITHUB_OUTPUT
-          fi
+          echo "build-status=${{ inputs['build-status'] }} >> $GITHUB_OUTPUT"
+          echo "first-output=first-value" >> $GITHUB_OUTPUT
+          echo "second-output=second-value" >> $GITHUB_OUTPUT
+          cat "Outputs: $GITHUB_OUTPUT"
+          echo "mistake=true" > $GITHUB_OUTPUT
+          cat "Outputs: $GITHUB_OUTPUT"
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     needs: build
     if: ${{ success() && needs.build.outputs.build-status == 'success' }}
     steps:
+      - name: Print Outputs
+        run: 'cat "Outputs: $GITHUB_OUTPUT"'
       - name: Check Build Status
         run: echo "Build status is ${{ needs.build.outputs.build-status }}. Proceeding with deployment."
