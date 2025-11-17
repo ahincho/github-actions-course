@@ -22,7 +22,6 @@ jobs:
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
-    needs: lint-build
     steps:
       - name: Running Unit Tests
         run: echo "Running unit tests"
