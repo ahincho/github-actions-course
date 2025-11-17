@@ -26,3 +26,21 @@ jobs:
           OVERWRITTEN_VAR: 'I was overwritten on step level'
         run: |
           echo "OVERWRITTEN_VAR: $OVERWRITTEN_VAR"
+  echo-organization:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Variables
+        run: |
+          echo "Org var: ${{ vars.ORGANIZATION_VAR }}"
+          echo "Org overwritten var: ${{ vars.OVERWRITTEN_VAR }}"
+          echo "Repo var: ${{ vars.REPOSITORY_VAR }}"
+  echo-prod:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps: 
+      - name: Print Prod Variables
+        run: | 
+          echo "Org var: ${{ vars.ORGANIZATION_VAR }}"
+          echo "Org overwritten var: ${{ vars.OVERWRITTEN_VAR }}"
+          echo "Repo var: ${{ vars.REPOSITORY_VAR }}"
+          echo "Environment var: ${{ vars.TARGET_VAR }}"
