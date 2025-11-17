@@ -22,7 +22,7 @@ jobs:
       - name: Running Unit Tests
         run: echo "Running unit tests"
       - name: Fail Unit Tests
-        if: ${{ github.event.inputs['pass-unit-tests'] == false }}
+        if: ${{ inputs.pass-unit-tests == false }}
         run: exit 1
   deploy-staging:
     name: Deploy to Staging
