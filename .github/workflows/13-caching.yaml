@@ -15,6 +15,7 @@ on:
 jobs:
   install-dependencies:
     runs-on: ubuntu-latest
+    name: Install Dependencies
     defaults:
       run:
         working-directory: ./13-caching
@@ -41,6 +42,7 @@ jobs:
         run: npm ci
   linting:
     runs-on: ubuntu-latest
+    name: Linting
     needs: install-dependencies
     defaults:
       run:
