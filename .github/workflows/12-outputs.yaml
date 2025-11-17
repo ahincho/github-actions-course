@@ -46,6 +46,7 @@ jobs:
     steps:
       - name: Print Outputs
         run: |
+          echo "GITHUB_OUTPUT is located at $GITHUB_OUTPUT"
           echo "Outputs" && cat $GITHUB_OUTPUT
           echo "Build Status: ${{ needs.build.outputs.build-status }}"
           echo "First Output: ${{ needs.build.outputs.first-output }}"
