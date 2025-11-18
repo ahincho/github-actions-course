@@ -50,12 +50,12 @@ jobs:
         shape: [circle, square, triangle]
         size: [small, medium, large]
         include:
-          - color: red
-            shape: circle
-            size: small
-          - color: blue
-            shape: square
-            size: large
+          - color: yellow
+            shape: pentagon
+            size: extra-small
+          - color: black
+            shape: hexagon
+            size: extra-large
     steps:
       - name: Run Example
         run: |
