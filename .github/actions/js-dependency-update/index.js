@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const exec = require('@actions/exec');
+const github = require('@actions/github');
 
 function isValidBranchName(branchName) {
   const branchRegex = /^[a-zA-Z0-9_.\-\/]+$/;
@@ -51,11 +52,24 @@ async function run() {
     core.info(`Debug Mode Enabled: ${debugModeEnabled}`);
     await exec.exec('npm update', [], { cwd: workingDirectory });
     const gitStatus = await exec.getExecOutput('git', ['status', '-s', 'package*.json'], { cwd: workingDirectory }); 
-    if (gitStatus.stdout.trim().length > 0) {
-      core.info('Detected changes in package files after npm update.');
-    } else {
+    if (gitStatus.stdout.trim().length === 0) {
       core.info('No changes detected in package files after npm update. Exiting.');
+      return;
     }
+    core.info('Detected changes in package files after npm update.');
+    exec.exec('git', ['checkout', '-b', targetBranch], { cwd: workingDirectory });
+    exec.exec('git', ['add', 'package*.json'], { cwd: workingDirectory });
+    exec.exec('git', ['commit', '-m', 'Chore: Update JS Dependencies'], { cwd: workingDirectory });
+    exec.exec('git', ['push', '--set-upstream', 'origin', targetBranch], { cwd: workingDirectory });
+    const octokit = github.getOctokit(githubToken);
+    await octokit.rest.pulls.create({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      title: "Chore: Update JS Dependencies",
+      body: "This PR updates the JavaScript dependencies to their latest versions.",
+      base: baseBranch,
+      head: targetBranch
+    });
   } catch (error) {
     core.setFailed(`Unexpected error: ${error.message}`);
   }
