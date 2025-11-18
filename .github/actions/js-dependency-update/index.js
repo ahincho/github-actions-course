@@ -48,7 +48,7 @@ async function run() {
     core.info(`Working Directory: ${workingDirectory}`);
     core.info(`Debug Mode Enabled: ${debugModeEnabled}`);
     await exec.exec('npm update', [], { cwd: workingDirectory });
-    const gitStatus = await exec.getExecOutput('git', ['status -s package*.json'], { cwd: workingDirectory }); 
+    const gitStatus = await exec.getExecOutput('git', ['status', '-s', 'package*.json'], { cwd: workingDirectory }); 
     if (gitStatus.stdout.trim().length > 0) {
       core.info('Detected changes in package files after npm update.');
     } else {
