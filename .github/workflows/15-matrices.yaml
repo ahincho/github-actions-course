@@ -19,6 +19,9 @@ jobs:
           - ubuntu-latest
           - windows-latest
           - macos-latest
+        include:
+          - os: ubuntu-latest
+            node-version: 16.x
     steps:
       - name: Set Up NodeJs
         uses: actions/setup-node@v6
