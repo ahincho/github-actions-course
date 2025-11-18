@@ -1,0 +1,5 @@
+name: Update NPM Dependencies
+description: Update NPM dependencies in a JavaScript project.
+runs:
+  using: node20
+  main: index.js
