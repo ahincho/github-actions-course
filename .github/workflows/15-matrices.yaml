@@ -68,7 +68,6 @@ jobs:
             size: large
           - shape: square
             size: medium
-          - opacity: 75
     steps:
       - name: Run Example
         run: |
