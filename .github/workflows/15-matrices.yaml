@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Fail if Experimental Version
-        if: !inputs.ignore-expiremental && matrix.node-version == '24.x'
+        if: ${{ !inputs.ignore-expiremental && matrix.node-version == '24.x' }}
         run: |
           echo "NodeJs ${{ matrix.node-version }} is experimental and not supported."
           exit 1
