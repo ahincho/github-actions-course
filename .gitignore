@@ -1,5 +1,3 @@
 # Ignore NPM Dependencies
 node_modules/
 dist/
-# Include Custom Actions Dependencies
-!.github/actions/**/node_modules
