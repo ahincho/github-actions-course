@@ -38,3 +38,19 @@ jobs:
         run: |
           echo "The value of ENVIRONMENT_DEPENDENT_VAR is $ENVIRONMENT_DEPENDENT_VAR"
           echo "Deployed to production environment"
+  send-email:
+    name: Send Email Notification
+    runs-on: ubuntu-latest
+    needs: deploy-production
+    steps:
+      - name: Notify Completion
+        run: |
+          echo "Deployment pipeline completed successfully!"
+  send-message:
+    name: Send Messaging Notification
+    runs-on: ubuntu-latest
+    needs: deploy-production
+    steps:
+      - name: Notify Completion
+        run: |
+          echo "Deployment pipeline completed successfully!"
