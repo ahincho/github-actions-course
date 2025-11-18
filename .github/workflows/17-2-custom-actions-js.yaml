@@ -20,6 +20,6 @@ jobs:
         with:
           node-version: '20.x'
           environment: ${{ inputs.environment }}
-          working-directory: './github/actions/js-dependency-update'
+          working-directory: './.github/actions/js-dependency-update'
       - name: Check for Dependency Updates
         uses: ./.github/actions/js-dependency-update
