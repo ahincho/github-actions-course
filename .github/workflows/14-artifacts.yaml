@@ -11,6 +11,9 @@ on:
           - '22.x'
           - '24.x'
         default: '24.x'
+env:
+  artifact-key: 14-artifacts-react-app-${{ inputs.node-version }}-${{ github.sha }}
+  test-coverage-key: 14-artifacts-react-app-test-coverage-${{ inputs.node-version }}-${{ github.sha }}
 jobs:
   test-build:
     name: Test and Build
@@ -20,7 +23,6 @@ jobs:
         working-directory: ./14-artifacts
     outputs:
       cache-key: ${{ steps.calculate-cache-key.outputs.cache-key }}
-      artifact-key: 14-artifacts-react-app-${{ inputs.node-version }}-${{ github.sha }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
@@ -42,13 +44,21 @@ jobs:
         run: npm ci
       - name: Run Tests
         run: npm run test
+      - name: Generate Coverage Report
+        run: npm run coverage
+      - name: Upload Coverage Report
+        id: upload-coverage
+        uses: actions/upload-artifact@v5
+        with:
+          name: ${{ env.test-coverage-key }}
+          path: 14-artifacts/coverage
       - name: Build Project
         run: npm run build
       - name: Upload Build Artifacts
         id: upload-artifacts
         uses: actions/upload-artifact@v5
         with:
-          name: 14-artifacts-react-app-${{ inputs.node-version }}-${{ github.sha }}
+          name: ${{ env.artifact-key }}
           path: 14-artifacts/dist
   deploy:
     name: Deploy
@@ -58,7 +68,7 @@ jobs:
       - name: Download Build Artifacts
         uses: actions/download-artifact@v6
         with:
-          name: ${{ needs.test-build.outputs.artifact-key }}
+          name: ${{ env.artifact-key }}
       - name: Deploy Application
         run: |
           echo "Deploying on Staging Environment"
