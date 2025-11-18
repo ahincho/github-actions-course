@@ -7,7 +7,7 @@ function isValidBranchName(branchName) {
 }
 
 function isValidDirectoryPath(directoryPath) {
-  const directoryRegex = /^[a-zA-Z0-9_\-\/]+$/;
+  const directoryRegex = /^[a-zA-Z0-9_.\-\/]+$/;
   return directoryRegex.test(directoryPath);
 }
 
