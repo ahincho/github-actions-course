@@ -30,7 +30,7 @@ async function run() {
     const baseBranch = core.getInput('base-branch');
     const targetBranch = core.getInput('target-branch');
     const workingDirectory = core.getInput('working-directory');
-    const debugModeEnabled = core.getBooleanInput('debug-mode-enabled');
+    const debugModeEnabled = core.getBooleanInput('debug');
     if (!isValidBranchName(baseBranch)) {
       core.setFailed(`Invalid base-branch format. Must contain only letters, digits, underscores, hyphens, dots, and forward slashes. Received: ${baseBranch}`);
       return;
