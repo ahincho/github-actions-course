@@ -57,7 +57,12 @@ jobs:
             shape: hexagon
             size: extra-large
           - opacity: 50
+          - color: white
+            shape: octagon
+            size: medium
+            opacity: 75
+          - opacity: 100
     steps:
       - name: Run Example
         run: |
-          echo "Running example: ${{ matrix.color }}, shape: ${{ matrix.shape }}, size: ${{ matrix.size }}, opacity: ${{ matrix.opacity }}"
+          echo "Running example: ${{ matrix.color }}, shape: ${{ matrix.shape }}, size: ${{ matrix.size }}, opacity: ${{ matrix.opacity || 0}}"
