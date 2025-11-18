@@ -13,8 +13,8 @@ jobs:
     name: Echo Environment
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
-    env:
-      ENVIRONMENT_DEPENDENT_VAR: ${{ secrets.ENVIRONMENT_DEPENDENT_VAR }}
     steps:
       - name: Echo Variable
+        env:
+          ENVIRONMENT_DEPENDENT_VAR: ${{ vars.ENVIRONMENT_DEPENDENT_VAR || 'default' }}
         run: echo "The value of ENVIRONMENT_DEPENDENT_VAR is $ENVIRONMENT_DEPENDENT_VAR"
