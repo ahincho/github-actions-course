@@ -3,6 +3,16 @@ run-name: 17 - 1 - Custom Actions - Composite (${{ inputs.environment }})
 on:
   workflow_dispatch:
     inputs:
+      node-version:
+        description: 'NodeJs Version'
+        type: choice
+        required: true
+        default: '24.x'
+        options:
+          - '18.x'
+          - '20.x'
+          - '22.x'
+          - '24.x'
       environment:
         description: 'Deployment Environment'
         type: environment
@@ -22,7 +32,8 @@ jobs:
         uses: ./.github/actions/composite-cache-deps
         id: cache-deps
         with:
-          node-version: '24.x'
+          node-version: ${{ inputs.node-version }}
+          environment: ${{ inputs.environment }}
           working-directory: './17-custom-actions'
       - name: Display Cache Key
         run: |
