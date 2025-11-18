@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./17-1-custom-actions
+        working-directory: ./17-custom-actions
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
