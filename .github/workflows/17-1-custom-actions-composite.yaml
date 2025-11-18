@@ -5,13 +5,9 @@ on:
     inputs:
       environment:
         description: 'Deployment Environment'
-        type: choice
+        type: environment
         required: true
-        options:
-          - 'staging'
-          - 'certification'
-          - 'production'
-        default: 'development'
+        default: 'staging'
 jobs:
   build:
     runs-on: ubuntu-latest
