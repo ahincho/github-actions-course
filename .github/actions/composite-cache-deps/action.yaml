@@ -1,0 +1,43 @@
+name: Cache NodeJS and NPM Dependencies
+description: Caches NodeJS and NPM dependencies to speed up workflow runs.
+inputs:
+  node-version:
+    description: 'NodeJs Version'
+    type: choice
+    required: true
+    default: '24.x'
+    options:
+      - '18.x'
+      - '20.x'
+      - '22.x'
+      - '24.x'
+  working-directory:
+    description: 'NodeJs Working Directory'
+    type: string
+    required: false
+    default: '.'
+runs:
+  using: composite
+  defaults:
+    run:
+      working-directory: ${{ inputs.working-directory }}
+  outputs:
+    cache-key: ${{ steps.calculate-cache-key.outputs.key }}
+  steps:
+    - name: Set Up NodeJs ${{ inputs.node-version }}
+      uses: actions/setup-node@v6
+      with:
+        node-version: ${{ inputs.node-version }}
+    - name: Calculate Cache Key
+      id: calculate-cache-key
+      run: |
+        echo "key=${{ runner.os }}-node-${{ inputs.node-version }}-${{ hashFiles(format('{0}/{1}', inputs.working-directory, 'package-lock.json')) }}" >> $GITHUB_OUTPUT
+    - name: Cache Dependencies
+      id: cache-node-modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ steps.calculate-cache-key.outputs.key }}
+    - name: Install Dependencies
+      if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+      run: npm ci
