@@ -5,7 +5,12 @@ on:
       fail-fast:
         description: 'Fail Fast'
         type: boolean
-        required: false
+        required: true
+        default: true
+      ignore-expiremental:
+        description: 'Ignore Experimental Versions'
+        type: boolean
+        required: true
         default: true
 jobs:
   backwards-compatibility:
@@ -28,12 +33,30 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Fail if Experimental Version
-        if: matrix.node-version == '24.x'
+        if: !inputs.ignore-expiremental && matrix.node-version == '24.x'
         run: |
-          echo "NodeJs ${{ matrix['node-version'] }} is experimental and not supported."
+          echo "NodeJs ${{ matrix.node-version }} is experimental and not supported."
           exit 1
       - name: Run Tests
-        run: sleep 10 && echo "Running tests on NodeJs ${{ matrix.node-version }} and ${{ matrix.os }} as OS"
+        run: sleep 5 && echo "Running tests on NodeJs ${{ matrix.node-version }} and ${{ matrix.os }} as OS"
       - name: Upload Test Results
         run: echo "Uploading test results for NodeJs ${{ matrix.node-version }} and ${{ matrix.os }}"
-  
+  include-example:
+    name: ${{ matrix.color }}-${{ matrix.shape }}-${{ matrix.size }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        color: [red, green, blue]
+        shape: [circle, square, triangle]
+        size: [small, medium, large]
+        include:
+          - color: red
+            shape: circle
+            size: small
+          - color: blue
+            shape: square
+            size: large
+    steps:
+      - name: Run Example
+        run: |
+          echo "Running example with color: ${{ matrix.color }}, shape: ${{ matrix.shape }}, size: ${{ matrix.size }}"
