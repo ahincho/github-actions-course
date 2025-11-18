@@ -1,13 +1,21 @@
 name: 17 - 2 - Custom Actions - JavaScript
-run-name: 17 - 2 - Custom Actions - JavaScript
+run-name: 17 - 2 - Custom Actions - JavaScript - ${{ inputs.base-branch }} -> ${{ inputs.target-branch }}
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        description: 'Deployment Environment'
-        type: environment
-        required: true
-        default: 'staging'
+      base-branch:
+        description: 'The base branch to compare against.'
+        required: false
+        default: 'main'
+      target-branch:
+        description: 'The branch to create the dependency update PR.'
+        required: false
+        default: 'dependency-updates'
+      debug:
+        description: 'Enable debug logging.'
+        type: boolean
+        required: false
+        default: false
 jobs:
   update-dependencies:
     name: Update NPM Dependencies
@@ -19,7 +27,9 @@ jobs:
         uses: ./.github/actions/composite-cache-deps
         with:
           node-version: '20.x'
-          environment: ${{ inputs.environment }}
           working-directory: './.github/actions/js-dependency-update'
       - name: Check for Dependency Updates
         uses: ./.github/actions/js-dependency-update
+        with:
+          working-directory: './17-custom-actions'
+          github-token: ${{ secrets.GITHUB_TOKEN }}

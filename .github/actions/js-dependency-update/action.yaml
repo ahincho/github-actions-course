@@ -1,5 +1,30 @@
 name: Update NPM Dependencies
 description: Update NPM dependencies in a JavaScript project.
+inputs:
+  base-branch:
+    description: 'The base branch to compare against.'
+    type: string
+    required: false
+    default: 'main'
+  target-branch:
+    description: 'The branch to create the dependency update PR.'
+    type: string
+    required: false
+    default: 'dependency-updates'
+  working-directory:
+    description: 'The working directory of the JavaScript project.'
+    type: string
+    required: false
+    default: '.'
+  github-token:
+    description: 'GitHub token for authentication.'
+    type: string
+    required: true
+  debug:
+    description: 'Enable debug logging.'
+    type: boolean
+    required: false
+    default: false
 runs:
   using: node20
   main: index.js
