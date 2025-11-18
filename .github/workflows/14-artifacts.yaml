@@ -20,6 +20,7 @@ jobs:
         working-directory: ./14-artifacts
     outputs:
       cache-key: ${{ steps.calculate-cache-key.outputs.cache-key }}
+      artifact-key: 14-artifacts-react-app-${{ inputs.node-version }}-${{ github.sha }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
@@ -44,9 +45,10 @@ jobs:
       - name: Build Project
         run: npm run build
       - name: Upload Build Artifacts
+        id: upload-artifacts
         uses: actions/upload-artifact@v5
         with:
-          name: 14-artifacts-react-app
+          name: 14-artifacts-react-app-${{ inputs.node-version }}-${{ github.sha }}
           path: 14-artifacts/dist
   deploy:
     name: Deploy
@@ -56,7 +58,7 @@ jobs:
       - name: Download Build Artifacts
         uses: actions/download-artifact@v6
         with:
-          name: 14-artifacts-react-app
+          name: ${{ needs.test-build.outputs.artifact-key }}
       - name: Deploy Application
         run: |
           echo "Deploying on Staging Environment"
