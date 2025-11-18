@@ -16,13 +16,12 @@ inputs:
     type: string
     required: false
     default: '.'
+outputs:
+  cache-key: ${{ steps.calculate-cache-key.outputs.key }}
 runs:
   using: composite
   defaults:
-    run:
-      working-directory: ${{ inputs.working-directory }}
-  outputs:
-    cache-key: ${{ steps.calculate-cache-key.outputs.key }}
+    shell: bash
   steps:
     - name: Set Up NodeJs ${{ inputs.node-version }}
       uses: actions/setup-node@v6
@@ -30,14 +29,16 @@ runs:
         node-version: ${{ inputs.node-version }}
     - name: Calculate Cache Key
       id: calculate-cache-key
+      working-directory: ${{ inputs.working-directory }}
       run: |
         echo "key=${{ runner.os }}-node-${{ inputs.node-version }}-${{ hashFiles(format('{0}/{1}', inputs.working-directory, 'package-lock.json')) }}" >> $GITHUB_OUTPUT
     - name: Cache Dependencies
       id: cache-node-modules
       uses: actions/cache@v4
       with:
-        path: node_modules
+        path: ${{ inputs.working-directory }}/node_modules
         key: ${{ steps.calculate-cache-key.outputs.key }}
     - name: Install Dependencies
       if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+      working-directory: ${{ inputs.working-directory }}
       run: npm ci
