@@ -1,0 +1,36 @@
+name: 17 - 1 - Custom Actions - Composite
+run-name: 17 - 1 - Custom Actions - Composite (${{ inputs.environment }})
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment Environment'
+        type: choice
+        required: true
+        options:
+          - 'staging'
+          - 'certification'
+          - 'production'
+        default: 'development'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./17-1-custom-actions
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+      - name: Cache NodeJS and NPM Dependencies
+        uses: ./.github/actions/composite-cache-deps
+        id: cache-deps
+        with:
+          node-version: '24.x'
+          working-directory: './17-custom-actions'
+      - name: Display Cache Key
+        run: |
+          echo "Cache Key: ${{ steps.cache-deps.outputs.cache-key }}"
+      - name: Run Tests
+        run: npm run test
+      - name: Build Application
+        run: npm run build
