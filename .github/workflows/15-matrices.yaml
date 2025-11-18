@@ -1,12 +1,18 @@
 name: 15 - Matrices
 on:
   workflow_dispatch:
+    inputs:
+      fail-fast:
+        description: 'Fail Fast'
+        type: boolean
+        required: false
+        default: true
 jobs:
   backwards-compatibility:
     name: ${{ matrix.os }}-${{ matrix.node-version }}
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: ${{ inputs.fail-fast }}
       matrix:
         node-version: [18.x, 20.x, 22.x, 24.x]
         os:
