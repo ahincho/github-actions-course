@@ -57,10 +57,10 @@ async function run() {
       return;
     }
     core.info('Detected changes in package files after npm update.');
-    exec.exec('git', ['checkout', '-b', targetBranch], { cwd: workingDirectory });
-    exec.exec('git', ['add', 'package*.json'], { cwd: workingDirectory });
-    exec.exec('git', ['commit', '-m', 'Chore: Update JS Dependencies'], { cwd: workingDirectory });
-    exec.exec('git', ['push', '--set-upstream', 'origin', targetBranch], { cwd: workingDirectory });
+    await exec.exec('git', ['checkout', '-b', targetBranch], { cwd: workingDirectory });
+    await exec.exec('git', ['add', 'package*.json'], { cwd: workingDirectory });
+    await exec.exec('git', ['commit', '-m', 'Chore: Update JS Dependencies'], { cwd: workingDirectory });
+    await exec.exec('git', ['push', '--set-upstream', 'origin', targetBranch], { cwd: workingDirectory });
     const octokit = github.getOctokit(githubToken);
     await octokit.rest.pulls.create({
       owner: github.context.repo.owner,
