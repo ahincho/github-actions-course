@@ -57,6 +57,8 @@ async function run() {
       return;
     }
     core.info('Detected changes in package files after npm update.');
+    await exec.exec('git', ['config', 'user.name', github.context.actor], { cwd: workingDirectory });
+    await exec.exec('git', ['config', 'user.email', `${github.context.actor}@users.noreply.github.com`], { cwd: workingDirectory });
     await exec.exec('git', ['checkout', '-b', targetBranch], { cwd: workingDirectory });
     await exec.exec('git', ['add', 'package*.json'], { cwd: workingDirectory });
     await exec.exec('git', ['commit', '-m', 'Chore: Update JS Dependencies'], { cwd: workingDirectory });
