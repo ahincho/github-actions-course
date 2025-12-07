@@ -1,3 +1,5 @@
 # Ignore NPM Dependencies
 node_modules/
 dist/
+# Ignore Python Virtual Environments
+.venv/
