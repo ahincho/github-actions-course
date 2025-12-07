@@ -16,6 +16,10 @@ inputs:
     type: integer
     required: false
     default: 5
+outputs:
+  success:
+    description: 'Indicates whether the URL was successfully pinged within the maximum free trials.'
+    type: boolean
 runs:
   using: docker
   image: Dockerfile
