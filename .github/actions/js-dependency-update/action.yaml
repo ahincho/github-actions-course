@@ -25,6 +25,9 @@ inputs:
     type: boolean
     required: false
     default: false
+outputs:
+  updated-dependencies:
+    description: 'List of updated dependencies.'
 runs:
   using: node20
   main: index.js

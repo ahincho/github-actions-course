@@ -12,6 +12,27 @@ function isValidDirectoryPath(directoryPath) {
   return directoryRegex.test(directoryPath);
 }
 
+async function getPackageVersions(cwd) {
+  const result = await exec.getExecOutput('npm', ['list', '--depth=0', '--json'], { cwd });
+  return JSON.parse(result.stdout);
+}
+
+function getUpdatedDeps(before, after) {
+  const updated = [];
+  const compareDeps = (beforeDeps, afterDeps, type) => {
+    if (!beforeDeps || !afterDeps) return;
+    for (const [pkg, info] of Object.entries(afterDeps)) {
+      const beforeInfo = beforeDeps[pkg];
+      if (beforeInfo && beforeInfo.version !== info.version) {
+        updated.push(`${pkg}@${type}: ${beforeInfo.version} -> ${info.version}`);
+      }
+    }
+  };
+  compareDeps(before.dependencies, after.dependencies, 'dep');
+  compareDeps(before.devDependencies, after.devDependencies, 'devDep');
+  return updated;
+}
+
 /*
   1. Parse inputs:
     1.1 Base-branch from which to check for updates
@@ -50,13 +71,16 @@ async function run() {
     core.info(`Target Branch: ${targetBranch}`);
     core.info(`Working Directory: ${workingDirectory}`);
     core.info(`Debug Mode Enabled: ${debugModeEnabled}`);
+    const beforeVersions = await getPackageVersions(workingDirectory);
     await exec.exec('npm update', [], { cwd: workingDirectory });
-    const gitStatus = await exec.getExecOutput('git', ['status', '-s', 'package*.json'], { cwd: workingDirectory }); 
-    if (gitStatus.stdout.trim().length === 0) {
-      core.info('No changes detected in package files after npm update. Exiting.');
+    const afterVersions = await getPackageVersions(workingDirectory);
+    const updatedDeps = getUpdatedDeps(beforeVersions, afterVersions);
+    if (updatedDeps.length === 0) {
+      core.info('No dependencies were updated. Exiting.');
       return;
     }
-    core.info('Detected changes in package files after npm update.');
+    core.info('Detected updated dependencies.');
+    core.setOutput('updated-dependencies', updatedDeps.join('\n'));
     await exec.exec('git', ['config', 'user.name', github.context.actor], { cwd: workingDirectory });
     await exec.exec('git', ['config', 'user.email', `${github.context.actor}@users.noreply.github.com`], { cwd: workingDirectory });
     await exec.exec('git', ['checkout', '-b', targetBranch], { cwd: workingDirectory });

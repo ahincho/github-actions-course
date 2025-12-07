@@ -32,7 +32,12 @@ jobs:
           node-version: '24.x'
           working-directory: './.github/actions/js-dependency-update'
       - name: Check for Dependency Updates
+        id: update-dependencies
         uses: ./.github/actions/js-dependency-update
         with:
           working-directory: './17-custom-actions'
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Print Updated Dependencies
+        run: |
+          echo "Updated Dependencies:"
+          echo "${{ steps.update-dependencies.outputs.updated-dependencies }}"
