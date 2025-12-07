@@ -71,6 +71,7 @@ async function run() {
     core.info(`Target Branch: ${targetBranch}`);
     core.info(`Working Directory: ${workingDirectory}`);
     core.info(`Debug Mode Enabled: ${debugModeEnabled}`);
+    await exec.exec('npm install', [], { cwd: workingDirectory });
     const beforeVersions = await getPackageVersions(workingDirectory);
     await exec.exec('npm update', [], { cwd: workingDirectory });
     const afterVersions = await getPackageVersions(workingDirectory);
