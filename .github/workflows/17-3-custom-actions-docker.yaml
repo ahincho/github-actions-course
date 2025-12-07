@@ -15,6 +15,7 @@ jobs:
   ping:
     name: Ping URL using Docker Action
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
