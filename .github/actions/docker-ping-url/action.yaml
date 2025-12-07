@@ -1,0 +1,21 @@
+name: Docker Ping URL
+description: Ping a specified URL using a Docker container until maximum free trials have been reached. If any result is not 200 OK then fail the action.
+inputs:
+  url:
+    description: 'The URL to ping.'
+    type: string
+    required: true
+    default: www.google.com
+  max-free-trials:
+    description: 'The maximum number of free trials to ping the URL.'
+    type: integer
+    required: false
+    default: 10
+  delay:
+    description: 'The delay in seconds between each ping attempt.'
+    type: integer
+    required: false
+    default: 5
+runs:
+  using: docker
+  image: Dockerfile
