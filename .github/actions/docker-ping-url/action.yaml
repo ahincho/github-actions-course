@@ -3,9 +3,12 @@ description: Ping a specified URL using a Docker container until maximum free tr
 inputs:
   url:
     description: 'The URL to ping.'
-    type: string
+    type: choice
     required: true
-    default: www.google.com
+    options:
+      - https://www.google.com
+      - https://www.invalid-url-example.com
+      - invalid-url-format
   max-free-trials:
     description: 'The maximum number of free trials to ping the URL.'
     type: integer
