@@ -15,13 +15,13 @@ jobs:
   ping:
     name: Ping URL using Docker Action
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
       - name: Ping URL
         id: ping-url
         uses: ./.github/actions/docker-ping-url
+        continue-on-error: true
         with:
           url: ${{ inputs.url }}
       - name: Show Result
