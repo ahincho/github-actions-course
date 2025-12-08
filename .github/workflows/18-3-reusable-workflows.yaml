@@ -1,0 +1,26 @@
+name: 18 - 3 - Reusable Workflows - Reusable Local Workflow
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    uses: ./.github/workflows/18-1-reusable-workflows.yaml
+    with:
+      target-directory: 'angular-base-application'
+  post-deploy:
+    name: Post Deployment Actions
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show Deployment Results
+        run: |
+          echo "Build Status: ${{ needs.deploy.outputs.build-status }}"
+          echo "Website URL: ${{ needs.deploy.outputs.website-url }}"
+  e2e-tests:
+    name: End-to-End Tests
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+      - name: Run E2E Tests
+        uses: ahincho/github-actions-course-example-e2e/.github/workflows/e2e.yaml@main
