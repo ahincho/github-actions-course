@@ -19,5 +19,3 @@ jobs:
     name: End-to-End Tests
     needs: deploy
     uses: ahincho/github-actions-course-example-e2e/.github/workflows/e2e.yaml@main
-    with:
-      access-token: ${{ secrets.GITHUB_TOKEN }}
