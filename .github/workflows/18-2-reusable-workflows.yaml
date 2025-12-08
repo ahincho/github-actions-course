@@ -1,0 +1,23 @@
+name: 18 - 2 - Reusable Workflows - Caller Definition
+on:
+  workflow_dispatch:
+    inputs:
+      target-directory:
+        description: 'The target directory to operate on'
+        required: true
+        type: string
+jobs:
+  deploy:
+    name: Call Reusable Deployment Workflow
+    uses: ./.github/workflows/18-1-reusable-workflows.yaml
+    with:
+      target-directory: ${{ inputs.target-directory }}
+  post-deploy:
+    name: Post Deployment Actions
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show Deployment Results
+        run: |
+          echo "Build Status: ${{ needs.deploy.outputs.build-status }}"
+          echo "Website URL: ${{ needs.deploy.outputs.website-url }}"
