@@ -1,0 +1,20 @@
+name: 19 - 1 - Managing Concurrency
+on:
+  workflow_dispatch:
+concurrency:
+  group: 19-1-managing-concurrency-${{ github.ref }}
+jobs:
+  ping:
+    name: Ping
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        id: checkout-repository
+        uses: actions/checkout@v5
+      - name: Ping Step
+        id: ping-step
+        uses: ./.github/actions/docker-ping-url
+        with:
+          url: https://www.example.com
+          max-free-trials: 20
+          delay: 5
