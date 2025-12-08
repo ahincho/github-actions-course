@@ -9,7 +9,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v5
       - name: Install Action Dependencies
-        uses: ./.github/actions/safe-title-check
+        uses: ./.github/actions/composite-cache-deps
         with:
           node-version: '24.x'
           working-directory: './.github/actions/safe-title-check'

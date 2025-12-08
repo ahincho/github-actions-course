@@ -1,4 +1,4 @@
-name: 20 - Workflow Security Best Practices
+name: 20 - 1 - Workflow Security Best Practices
 on:
   pull_request:
 jobs:
