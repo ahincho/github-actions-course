@@ -5,3 +5,5 @@ Welcome to the GitHub Actions Course! This repository contains all the materials
 We can use event filters and activity types filters
 
 GitHub Actions offers a collection of built-in functions
+
+Workflow Security is an important topic to talk about. Using insecure shell scripts can expose credentials and make the workflow vulnerable to script injections
