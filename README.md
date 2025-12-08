@@ -6,6 +6,6 @@ We can use event filters and activity types filters
 
 GitHub Actions offers a collection of built-in functions
 
-Workflow Security is an important topic to talk about.
+Workflow Security is an important topic to talk about
 
 Commons attacks on workflow executions are script injection and permissions abuse
