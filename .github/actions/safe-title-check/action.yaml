@@ -1,0 +1,15 @@
+name: Safe Title Check
+description: A GitHub Action to ensure pull request titles are safe and follow guidelines.
+inputs:
+  safe-title-pattern:
+    description: 'A regex pattern that defines a safe pull request title.'
+    type: string
+    required: true
+    default: '^[A-Z].*'
+  pull-request-title:
+    description: 'The title of the pull request to check.'
+    type: string
+    required: true
+runs:
+  using: "node20"
+  main: "index.js"
