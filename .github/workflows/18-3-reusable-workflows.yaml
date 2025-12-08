@@ -27,4 +27,4 @@ jobs:
     needs: deploy
     uses: ahincho/github-actions-course-example-e2e/.github/workflows/e2e.yaml@main
     secrets:
-      access-token: ${{ secrets.GITHUB_TOKEN }}
+      access-token: ${{ secrets.GH_TOKEN }}
