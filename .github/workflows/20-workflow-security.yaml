@@ -18,3 +18,20 @@ jobs:
             echo "PR title does not start with 'Feature'."
             exit 1
           fi
+  safe-pr:
+    name: Safe Pull Request Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+      - name: Check PR Title Safely
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if [[ $TITLE =~ ^Feature ]]; then
+            echo "PR title starts with 'Feature'."
+            exit 0
+          else
+            echo "PR title does not start with 'Feature'."
+            exit 1
+          fi
