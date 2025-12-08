@@ -1,8 +1,15 @@
 name: 18 - 3 - Reusable Workflows - Reusable Local Workflow
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment Environment'
+        type: environment
+        required: true
+        default: 'staging'
 jobs:
   deploy:
+    name: Build and Deploy Angular Application
     uses: ./.github/workflows/18-1-reusable-workflows.yaml
     with:
       target-directory: 'angular-base-application'
@@ -19,3 +26,5 @@ jobs:
     name: End-to-End Tests
     needs: deploy
     uses: ahincho/github-actions-course-example-e2e/.github/workflows/e2e.yaml@main
+    secrets:
+      access-token: ${{ secrets.GH_TOKEN }}
