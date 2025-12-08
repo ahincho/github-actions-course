@@ -1,0 +1,39 @@
+name: 18 - 1 - Reusable Workflows - Reusable Definition
+on:
+  workflow_call:
+    inputs:
+      target-directory:
+        description: 'The target directory to operate on'
+        required: true
+        type: string
+    outputs:
+      build-status:
+        description: 'The status of the build process'
+        value: ${{ jobs.deploy.outputs.build-status }}
+      website-url:
+        description: 'The URL of the deployed website'
+        value: ${{ jobs.deploy.outputs.website-url }}
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    outputs:
+      build-status: ${{ steps.build.outputs.build-status }}
+      website-url: ${{ steps.deploy.outputs.website-url }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+      - name: Build
+        id: build
+        run: |
+          echo "Building the project in directory: ${{ inputs.target-directory }}"
+          # Simulate build process
+          sleep 2
+          echo "build-status=success" >> $GITHUB_OUTPUT
+      - name: Deploy
+        id: deploy
+        run: |
+          echo "Deploying"
+          # Simulate deployment process
+          sleep 2
+          echo "website-url=https://example.com/${{ inputs.target-directory }}" >> $GITHUB_OUTPUT
