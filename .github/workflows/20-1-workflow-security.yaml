@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v5
       - name: Check PR Title
         run: |
-          title="${{ github.event.pull_request.title }}"
+          title=${{ github.event.pull_request.title }}
           if [[ $title =~ ^Feature ]]; then
             echo "PR title starts with 'Feature'."
             exit 0
