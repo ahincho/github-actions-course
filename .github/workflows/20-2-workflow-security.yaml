@@ -1,0 +1,20 @@
+name: 20 - 2 - Workflow Security with Custom Actions
+on:
+  pull_request:
+jobs:
+  check-pull-request-title:
+    name: Check Pull Request Title with Safe Title Check Action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+      - name: Install Action Dependencies
+        uses: ./.github/actions/safe-title-check
+        with:
+          node-version: '24.x'
+          working-directory: './.github/actions/safe-title-check'
+      - name: Check PR Title Safely Using Custom Action
+        uses: ./.github/actions/safe-title-check
+        with:
+          safe-title-pattern: '^Feature:'
+          pull-request-title: ${{ github.event.pull_request.title }}
