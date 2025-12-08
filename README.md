@@ -9,3 +9,5 @@ GitHub Actions offers a collection of built-in functions
 Workflow Security is an important topic to talk about
 
 Commons attacks on workflow executions are script injection and permissions abuse
+
+In order to avoid common attacks we can use Custom Actions for instance Composite Actions, JS Actions or Docker Actions
