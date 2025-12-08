@@ -1,0 +1,20 @@
+name: 20 - Workflow Security Best Practices
+on:
+  pull_request:
+jobs:
+  unsafe-pr:
+    name: Unsafe Pull Request Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+      - name: Check PR Title
+        run:
+          title = ${{ github.event.pull_request.title }}
+          if [[ $title =~ ^Feature ]]; then
+            echo "PR title starts with 'Feature'."
+            exit 0
+          else
+            echo "PR title does not start with 'Feature'."
+            exit 1
+          fi
