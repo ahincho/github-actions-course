@@ -1,0 +1,34 @@
+name: 19 - 2 - Managing Concurrency at Job Level
+on:
+  workflow_dispatch:
+jobs:
+  ping-with-concurrency:
+    name: Ping with Concurrency Control
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - name: Checkout Repository
+        id: checkout-repository
+        uses: actions/checkout@v5
+      - name: Ping Step with Concurrency
+        id: ping-step-concurrency
+        uses: ./.github/actions/docker-ping-url
+        with:
+          url: https://www.example.com
+          max-free-trials: 20
+          delay: 5
+  ping-without-concurrency:
+    name: Ping without Concurrency Control
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        id: checkout-repository-no-concurrency
+        uses: actions/checkout@v5
+      - name: Ping Step without Concurrency
+        id: ping-step-no-concurrency
+        uses: ./.github/actions/docker-ping-url
+        with:
+          url: https://www.example.com
+          max-free-trials: 20
+          delay: 5
